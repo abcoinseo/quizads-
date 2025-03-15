@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="bn">  <!-- Set language to Bengali -->
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>১০০,০০০ টাকা জিতুন কুইজ</title> <!-- Bengali Title -->
+    <style>
+        /* General Styles */
+        body {
+            font-family: 'Hind Siliguri', sans-serif; /* Bengali font */
+            background-color: #f0f8ff; /* Light Alice Blue */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            overflow-x: hidden; /* Prevent horizontal scroll */
+        }
+
+        .container {
+            background-color: white;
+            padding: 30px;
+            border-radius: 15px; /* More rounded corners */
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2); /* Stronger shadow */
+            width: 90%;
+            max-width: 600px;  /* Slightly wider */
+            text-align: center;
+            position: relative; /* For animations */
+            overflow: hidden;  /* Hide overflowing content during animations */
+        }
+
+        h1 {
+            color: #3498db; /* Blue color for the title */
+            margin-bottom: 30px; /* More space */
+            font-size: 2.5em; /* Larger title */
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px; /* More space */
+            font-weight: 600;  /* Slightly bolder */
+            color: #555;     /* Darker text */
+        }
+
+        input[type="text"],
+        input[type="number"] {
+            width: 100%;
+            padding: 12px; /* More padding */
+            border: 2px solid #3498db; /* Blue border */
+            border-radius: 8px; /* Rounded input fields */
+            box-sizing: border-box;
+            margin-bottom: 0;
+            font-size: 16px; /* Larger font */
+            transition: border-color 0.3s ease; /* Smooth transition for focus */
+        }
+
+        input[type="text"]:focus,
+        input[type="number"]:focus {
+            border-color: #2980b9; /* Darker blue on focus */
+            outline: none; /* Remove default outline */
+        }
+
+
+        button {
+            background-color: #2ecc71; /* Green button */
+            color: white;
+            padding: 15px 25px; /* Larger button */
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            width: 100%;
+            font-size: 18px; /* Larger font */
+            margin-top: 15px;
+            transition: background-color 0.3s ease, transform 0.2s ease; /* Smooth transitions */
+        }
+
+        button:hover {
+            background-color: #27ae60; /* Darker green on hover */
+            transform: scale(1.05); /* Slightly enlarge on hover */
+        }
+        #quiz-container {
+            display: none;
+            margin-top: 30px;
+            position: relative; /* For absolute positioning of elements */
+
+        }
+
+
+        #question {
+            font-size: 20px;
+            margin-bottom: 25px; /* More space */
+            font-weight: bold;
+            color: #333;
+        }
+          .answer-options {
+            display: flex;
+            flex-direction: column;
+            align-items: stretch;
+
+        }
+
+
+        .answer-button {
+            background-color: #ecf0f1; /* Light gray */
+            color: #333;
+            padding: 15px; /* More padding */
+            border: 1px solid #bdc3c7; /* Light border */
+            border-radius: 8px; /* Rounded buttons */
+            margin-bottom: 10px; /* More space */
+            cursor: pointer;
+            width: 100%;
+            text-align: left;
+            font-size: 16px;
+            transition: background-color 0.3s ease, transform 0.2s ease; /* Smooth transition */
+        }
+
+        .answer-button:hover {
+            background-color: #d4d8d9; /* Darker gray on hover */
+             transform: translateY(-3px); /* Slight upward movement on hover */
+        }
+
+        .correct {
+            background-color: #dff0d8; /* Light green */
+            border-color: #d0e9c6;
+            color: #3c763d;
+             animation: correctAnswerAnimation 0.5s ease; /* Animation for correct */
+        }
+          .incorrect {
+            background-color: #f8d7da;
+            border-color: #f5c6cb;
+            color: #721c24;
+            animation: incorrectAnswerAnimation 0.5s ease; /* Animation for incorrect */
+        }
+
+
+
+        #result {
+            margin-top: 30px; /* More space */
+            font-weight: bold;
+            font-size: 18px; /* Larger font */
+            color: #555;
+        }
+
+        #score {
+            margin-top: 15px;
+            font-size: 18px;
+            color: #2ecc71; /* Green for score */
+        }
+       #next-button {
+        margin-top: 20px; /* Add some spacing */
+        }
+
+        /* Animations */
+        @keyframes slideInFromLeft {
+            from {
+                transform: translateX(-100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        @keyframes slideInFromRight {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+        @keyframes correctAnswerAnimation {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); background-color: #a8e6a8; } /* Slightly enlarge and change color */
+            100% { transform: scale(1); }
+        }
+
+        @keyframes incorrectAnswerAnimation {
+            0% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            50% { transform: translateX(5px); }
+            75% { transform: translateX(-5px); }
+            100% { transform: translateX(0); }
+        }
+
+
+
+    </style>
+      <!-- Include Google Fonts for Bengali -->
+    <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+    <div class="container">
+        <h1>১০০,০০০ টাকা জিতুন কুইজ</h1>
+
+        <div id="registration-form">
+            <div class="form-group">
+                <label for="name">আপনার নাম:</label>
+                <input type="text" id="name" required>
+            </div>
+            <div class="form-group">
+                <label for="age">আপনার বয়স:</label>
+                <input type="number" id="age" required>
+            </div>
+            <div class="form-group">
+                <label for="class">আপনি কোন ক্লাসে পড়েন:</label>
+                <input type="text" id="class" required>
+            </div>
+            <button onclick="registerUser()">অংশগ্রহণ করুন</button>
+        </div>
+
+
+        <div id="quiz-container">
+             <div id="question"></div>
+            <div class="answer-options" id="options"></div>
+            <div id="result"></div>
+            <div id="score"></div>
+            <button id="next-button" onclick="nextQuestion()" style="display: none;">পরবর্তী প্রশ্ন</button>
+        </div>
+    </div>
+
+
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+
+    <script>
+      const firebaseConfig = {
+      apiKey: "AIzaSyCyH3Z92F8RQweInLC5w_bk_AaLx6XT7UE",
+      authDomain: "ab-wallet-62482.firebaseapp.com",
+      databaseURL: "https://ab-wallet-62482-default-rtdb.firebaseio.com",
+      projectId: "ab-wallet-62482",
+      storageBucket: "ab-wallet-62482.firebasestorage.app",
+      messagingSenderId: "642030839072",
+      appId: "1:642030839072:web:77fc92375ba72e2ee62345"
+      };
+
+
+
+        firebase.initializeApp(firebaseConfig);
+        const database = firebase.database();
+
+        let currentQuestion = 0;
+        let score = 0;
+        let questions = [];
+
+         function registerUser() {
+            const name = document.getElementById('name').value.trim();
+            const age = document.getElementById('age').value.trim();
+            const className = document.getElementById('class').value.trim();
+
+            if (!name || !age || !className) {
+                alert('দয়া করে সবগুলো ঘর পূরণ করুন।'); // Bengali alert
+                return;
+            }
+
+            const userData = { name, age, class: className, score: 0 };
+            database.ref('users/' + Date.now()).set(userData)
+                .then(() => {
+                    localStorage.setItem('userData', JSON.stringify(userData));
+                    startQuiz();
+                     // Apply animation to registration form
+                    document.getElementById('registration-form').style.animation = 'slideInFromLeft 0.5s ease';
+                })
+                .catch(error => {
+                    console.error("Firebase এ লিখতে সমস্যা হয়েছে:", error);
+                    alert("রেজিস্টার করতে সমস্যা হয়েছে। অনুগ্রহ করে কনসোল দেখুন।");  // Bengali alert
+                });
+        }
+
+        function startQuiz() {
+             document.getElementById('registration-form').style.display = 'none';
+             document.getElementById('quiz-container').style.display = 'block';
+
+             // Apply animation to quiz container
+             document.getElementById('quiz-container').style.animation = 'slideInFromRight 0.5s ease';
+
+            generateQuestions();
+            displayQuestion();
+        }
+       function generateQuestions() {
+           questions = []; // Clear previous questions
+            for (let i = 0; i < 10; i++) {
+                const num1 = Math.floor(Math.random() * 10) + 1; // Numbers 1-10
+                const num2 = Math.floor(Math.random() * 10) + 1;
+                const operator = Math.random() < 0.5 ? '+' : '-'; // 50% + or -
+                const correctAnswer = operator === '+' ? num1 + num2 : num1 - num2;
+
+                const question = {
+                    text: `${num1} ${operator} ${num2} কত?`,  // Bengali question
+                    correctAnswer: correctAnswer,
+                     options: generateOptions(correctAnswer) // Generate options *including* the correct answer
+                };
+                questions.push(question);
+            }
+            console.log(questions)
+        }
+
+
+        function generateOptions(correctAnswer) {
+            const options = [correctAnswer];
+            while (options.length < 4) {
+                const randomOption = Math.floor(Math.random() * 20) - 5; // Wider range of options
+                 if (!options.includes(randomOption)) {
+                    options.push(randomOption);
+                }
+            }
+              // Shuffle options
+             return options.sort(() => Math.random() - 0.5);
+        }
+
+
+       function displayQuestion() {
+        if (currentQuestion < questions.length) {
+            const q = questions[currentQuestion];
+            document.getElementById('question').textContent = q.text;
+              // Apply animation to question
+              document.getElementById('question').style.animation = 'fadeIn 0.5s ease';
+
+
+            const optionsContainer = document.getElementById('options');
+            optionsContainer.innerHTML = '';
+
+
+            q.options.forEach(option => {
+                const button = document.createElement('button');
+                button.textContent = option;
+                button.classList.add('answer-button');
+                button.addEventListener('click', () => checkAnswer(option, q.correctAnswer));
+                optionsContainer.appendChild(button);
+                   // Apply animation to answer buttons
+                    button.style.animation = 'fadeIn 0.5s ease';
+
+            });
+              document.getElementById('next-button').style.display = 'none';
+            document.getElementById('result').textContent = '';
+
+        } else {
+            endQuiz();
+        }
+    }
+
+
+     function checkAnswer(selectedAnswer, correctAnswer) {
+           const options = document.querySelectorAll('.answer-button');
+           options.forEach(button => {
+              button.disabled = true; // Disable all buttons
+                if (parseInt(button.textContent) === correctAnswer) {
+                   button.classList.add('correct');
+                 } else if (parseInt(button.textContent) === selectedAnswer) {
+                     button.classList.add('incorrect');
+                }
+           });
+
+
+        if (selectedAnswer === correctAnswer) {
+            score += 10;
+            document.getElementById('result').textContent = "সঠিক! আপনি ১০ টাকা জিতেছেন।"; // Bengali text
+            updateScore(score);
+              // Apply animation to result
+              document.getElementById('result').style.animation = 'fadeIn 0.5s ease';
+
+
+        } else {
+             document.getElementById('result').textContent = `ভুল। সঠিক উত্তর ছিল ${correctAnswer}।`; // Bengali text
+                // Apply animation to result
+            document.getElementById('result').style.animation = 'fadeIn 0.5s ease';
+        }
+
+        document.getElementById('next-button').style.display = 'block';
+         // Apply animation to next button
+        document.getElementById('next-button').style.animation = 'fadeIn 0.5s ease';
+    }
+
+
+
+     function nextQuestion() {
+            currentQuestion++;
+            displayQuestion();
+
+        }
+
+    function updateScore(newScore) {
+        const userDataString = localStorage.getItem('userData');
+        if (userDataString) {
+            const userData = JSON.parse(userDataString);
+            userData.score = newScore;
+            localStorage.setItem('userData', JSON.stringify(userData));
+
+            const userRef = database.ref('users').orderByChild('name').equalTo(userData.name);
+                userRef.once('value', (snapshot) => {
+                    snapshot.forEach((childSnapshot) => {
+                        childSnapshot.ref.update({ score: newScore });
+
+                    });
+                });
+        }
+             document.getElementById('score').textContent = `আপনার বর্তমান স্কোর: ${newScore} টাকা`; // Bengali
+              // Apply animation to score
+            document.getElementById('score').style.animation = 'fadeIn 0.5s ease';
+
+    }
+
+
+    function endQuiz() {
+        document.getElementById('question').textContent = "কুইজ শেষ!";  // Bengali
+        document.getElementById('options').innerHTML = '';
+
+        const userDataString = localStorage.getItem('userData');
+         if (userDataString) {
+            const userData = JSON.parse(userDataString);
+             if(userData.score != null) {
+                 document.getElementById('result').textContent = `আপনার মোট স্কোর: ${userData.score} টাকা।`;// Bengali
+
+             }
+            }
+        document.getElementById('next-button').style.display = 'none';
+
+         // Apply animation to final result
+        document.getElementById('result').style.animation = 'fadeIn 0.5s ease';
+    }
+
+    // Check for existing user data
+    window.onload = () => {
+        const userDataString = localStorage.getItem('userData');
+        if (userDataString) {
+            const userData = JSON.parse(userDataString);
+            document.getElementById('name').value = userData.name;
+            document.getElementById('age').value = userData.age;
+            document.getElementById('class').value = userData.class;
+            startQuiz();
+             if(userData.score!= null){
+             document.getElementById('score').textContent = `আপনার বর্তমান স্কোর: ${userData.score} টাকা`;  // Bengali
+
+           }
+        }
+    };
+    </script>
+</body>
+
+</html>
